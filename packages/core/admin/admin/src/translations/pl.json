@@ -669,6 +669,7 @@
   "global.settings": "Ustawienia",
   "global.type": "Typ",
   "global.users": "Użytkownicy",
+  "global.cancel": "Anuluj",
   "notification.contentType.relations.conflict": "Typ treści ma sprzeczne relacje",
   "notification.default.title": "Informacja:",
   "notification.error": "Wystąpił bład",

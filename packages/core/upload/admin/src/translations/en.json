@@ -7,6 +7,7 @@
   "checkControl.crop-original": "Crop the original asset",
   "content.isLoading": "Content is loading.",
   "control-card.add": "Add",
+  "control-card.delete": "Delete",
   "control-card.cancel": "Cancel",
   "control-card.copy-link": "Copy link",
   "control-card.crop": "Crop",

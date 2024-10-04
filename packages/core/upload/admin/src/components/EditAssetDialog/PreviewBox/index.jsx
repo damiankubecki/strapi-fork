@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Flex, IconButton } from '@strapi/design-system';
+import { Flex, IconButton, Button } from '@strapi/design-system';
 import { useTracking } from '@strapi/helper-plugin';
-import { Crop as Resize, Download as DownloadIcon, Trash } from '@strapi/icons';
+import { Crop as Resize, Download as DownloadIcon } from '@strapi/icons';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 
@@ -154,16 +154,17 @@ export const PreviewBox = ({
 
         <ActionRow paddingLeft={3} paddingRight={3} justifyContent="flex-end">
           <Flex gap={1}>
-            {canUpdate && !asset.isLocal && (
-              <IconButton
-                label={formatMessage({
-                  id: 'global.delete',
-                  defaultMessage: 'Delete',
-                })}
-                icon={<Trash />}
-                onClick={() => setShowConfirmDialog(true)}
-              />
-            )}
+            <Button
+              type="button"
+              variant="danger-light"
+              onClick={() => setShowConfirmDialog(true)}
+              name="delete"
+            >
+              {formatMessage({
+                id: getTrad('control-card.delete'),
+                defaultMessage: 'Delete',
+              })}
+            </Button>
 
             {canDownload && (
               <IconButton

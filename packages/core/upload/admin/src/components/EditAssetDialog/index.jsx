@@ -281,29 +281,6 @@ export const EditAssetDialog = ({
                       onChange={handleChange}
                       disabled={formDisabled}
                     />
-
-                    <Flex direction="column" alignItems="stretch" gap={1}>
-                      <FieldLabel htmlFor="asset-folder">
-                        {formatMessage({
-                          id: getTrad('form.input.label.file-location'),
-                          defaultMessage: 'Location',
-                        })}
-                      </FieldLabel>
-
-                      <SelectTree
-                        name="parent"
-                        defaultValue={values.parent}
-                        options={folderStructure}
-                        onChange={(value) => {
-                          setFieldValue('parent', value);
-                        }}
-                        menuPortalTarget={document.querySelector('body')}
-                        inputId="asset-folder"
-                        isDisabled={formDisabled}
-                        error={errors?.parent}
-                        ariaErrorMessage="folder-parent-error"
-                      />
-                    </Flex>
                   </Flex>
 
                   <VisuallyHidden>
@@ -327,22 +304,24 @@ export const EditAssetDialog = ({
               </Button>
             }
             endActions={
-              <>
-                <ReplaceMediaButton
-                  onSelectMedia={setReplacementFile}
-                  acceptedMime={asset.mime}
-                  disabled={formDisabled}
-                  trackedLocation={trackedLocation}
-                />
+              !formDisabled && (
+                <>
+                  <ReplaceMediaButton
+                    onSelectMedia={setReplacementFile}
+                    acceptedMime={asset.mime}
+                    disabled={formDisabled}
+                    trackedLocation={trackedLocation}
+                  />
 
-                <Button
-                  onClick={() => submitButtonRef.current.click()}
-                  loading={isLoading}
-                  disabled={formDisabled}
-                >
-                  {formatMessage({ id: 'global.finish', defaultMessage: 'Finish' })}
-                </Button>
-              </>
+                  <Button
+                    onClick={() => submitButtonRef.current.click()}
+                    loading={isLoading}
+                    disabled={formDisabled}
+                  >
+                    {formatMessage({ id: 'global.finish', defaultMessage: 'Finish' })}
+                  </Button>
+                </>
+              )
             }
           />
         </ModalLayout>

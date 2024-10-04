@@ -71,7 +71,7 @@ module.exports = {
       model: FILE_MODEL_UID,
     });
 
-    if (!pm.isAllowed) {
+    if (!user) {
       return ctx.forbidden();
     }
 

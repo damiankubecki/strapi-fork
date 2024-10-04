@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom';
 
 import { Breadcrumbs } from '../../../../components/Breadcrumbs';
 import { BreadcrumbsDefinition, FolderDefinition } from '../../../../constants';
+import { useMediaLibraryPermissions } from '../../../../hooks/useMediaLibraryPermissions';
 import { getTrad } from '../../../../utils';
 
 export const Header = ({
@@ -27,6 +28,7 @@ export const Header = ({
     folder: folder?.parent?.id ?? undefined,
     folderPath: folder?.parent?.path ?? undefined,
   };
+  const { canUpdate } = useMediaLibraryPermissions();
 
   return (
     <HeaderLayout
@@ -64,12 +66,14 @@ export const Header = ({
       primaryAction={
         canCreate && (
           <Flex gap={2}>
-            <Button startIcon={<Plus />} variant="secondary" onClick={onToggleEditFolderDialog}>
-              {formatMessage({
-                id: getTrad('header.actions.add-folder'),
-                defaultMessage: 'Add new folder',
-              })}
-            </Button>
+            {canUpdate && (
+              <Button startIcon={<Plus />} variant="secondary" onClick={onToggleEditFolderDialog}>
+                {formatMessage({
+                  id: getTrad('header.actions.add-folder'),
+                  defaultMessage: 'Add new folder',
+                })}
+              </Button>
+            )}
 
             <Button startIcon={<Plus />} onClick={onToggleUploadAssetDialog}>
               {formatMessage({

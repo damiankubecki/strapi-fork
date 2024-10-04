@@ -228,32 +228,9 @@ export const MediaLibrary = () => {
         <ActionLayout
           startActions={
             <>
-              {canUpdate && isGridView && (assetCount > 0 || folderCount > 0) && (
-                <BoxWithHeight
-                  paddingLeft={2}
-                  paddingRight={2}
-                  background="neutral0"
-                  hasRadius
-                  borderColor="neutral200"
-                >
-                  <BaseCheckbox
-                    aria-label={formatMessage({
-                      id: getTrad('bulk.select.label'),
-                      defaultMessage: 'Select all folders & assets',
-                    })}
-                    indeterminate={indeterminateBulkSelect}
-                    value={
-                      (assetCount > 0 || folderCount > 0) &&
-                      selected.length === assetCount + folderCount
-                    }
-                    onChange={(e) => handleBulkSelect(e, [...assets, ...folders])}
-                  />
-                </BoxWithHeight>
-              )}
               {canRead && isGridView && (
                 <SortPicker value={query?.sort} onChangeSort={handleChangeSort} />
               )}
-              {canRead && <Filters />}
             </>
           }
           endActions={
@@ -378,65 +355,116 @@ export const MediaLibrary = () => {
 
                     return (
                       <GridItem col={3} key={`folder-${folder.id}`}>
-                        <FolderCard
-                          ref={
-                            folderToEdit && folder.id === folderToEdit.id
-                              ? currentFolderToEditRef
-                              : undefined
-                          }
-                          ariaLabel={folder.name}
-                          id={`folder-${folder.id}`}
-                          to={url}
-                          startAction={
-                            selectOne && folder.isSelectable ? (
-                              <FolderCardCheckbox
-                                data-testid={`folder-checkbox-${folder.id}`}
-                                value={isSelected}
-                                onChange={() => selectOne(folder)}
+                        {canUpdate ? (
+                          <FolderCard
+                            ref={
+                              folderToEdit && folder.id === folderToEdit.id
+                                ? currentFolderToEditRef
+                                : undefined
+                            }
+                            ariaLabel={folder.name}
+                            id={`folder-${folder.id}`}
+                            to={url}
+                            startAction={
+                              selectOne && folder.isSelectable ? (
+                                <FolderCardCheckbox
+                                  data-testid={`folder-checkbox-${folder.id}`}
+                                  value={isSelected}
+                                  onChange={() => selectOne(folder)}
+                                />
+                              ) : null
+                            }
+                            cardActions={
+                              <IconButton
+                                icon={<Pencil />}
+                                aria-label={formatMessage({
+                                  id: getTrad('list.folder.edit'),
+                                  defaultMessage: 'Edit folder',
+                                })}
+                                onClick={() => handleEditFolder(folder)}
                               />
-                            ) : null
-                          }
-                          cardActions={
-                            <IconButton
-                              icon={<Pencil />}
-                              aria-label={formatMessage({
-                                id: getTrad('list.folder.edit'),
-                                defaultMessage: 'Edit folder',
-                              })}
-                              onClick={() => handleEditFolder(folder)}
-                            />
-                          }
-                        >
-                          <FolderCardBody>
-                            <FolderCardBodyAction to={url}>
-                              <Flex as="h2" direction="column" alignItems="start" maxWidth="100%">
-                                <TypographyMaxWidth fontWeight="semiBold" ellipsis>
-                                  {folder.name}
-                                  <VisuallyHidden>:</VisuallyHidden>
-                                </TypographyMaxWidth>
+                            }
+                          >
+                            <FolderCardBody>
+                              <FolderCardBodyAction to={url}>
+                                <Flex as="h2" direction="column" alignItems="start" maxWidth="100%">
+                                  <TypographyMaxWidth fontWeight="semiBold" ellipsis>
+                                    {folder.name}
+                                    <VisuallyHidden>:</VisuallyHidden>
+                                  </TypographyMaxWidth>
 
-                                <TypographyMaxWidth
-                                  as="span"
-                                  textColor="neutral600"
-                                  variant="pi"
-                                  ellipsis
-                                >
-                                  {formatMessage(
-                                    {
-                                      id: getTrad('list.folder.subtitle'),
-                                      defaultMessage:
-                                        '{folderCount, plural, =0 {# folder} one {# folder} other {# folders}}, {filesCount, plural, =0 {# asset} one {# asset} other {# assets}}',
-                                    },
-                                    {
-                                      folderCount: folder.children.count,
-                                      filesCount: folder.files.count,
-                                    }
-                                  )}
-                                </TypographyMaxWidth>
-                              </Flex>
-                            </FolderCardBodyAction>
-                          </FolderCardBody>
-                        </FolderCard>
+                                  <TypographyMaxWidth
+                                    as="span"
+                                    textColor="neutral600"
+                                    variant="pi"
+                                    ellipsis
+                                  >
+                                    {formatMessage(
+                                      {
+                                        id: getTrad('list.folder.subtitle'),
+                                        defaultMessage:
+                                          'Files: filesCount',
+                                      },
+                                      {
+                                        filesCount: folder.files.count,
+                                      }
+                                    )}
+                                  </TypographyMaxWidth>
+                                </Flex>
+                              </FolderCardBodyAction>
+                            </FolderCardBody>
+                          </FolderCard>
+                        ) : (
+                          <FolderCard
+                            ref={
+                              folderToEdit && folder.id === folderToEdit.id
+                                ? currentFolderToEditRef
+                                : undefined
+                            }
+                            ariaLabel={folder.name}
+                            id={`folder-${folder.id}`}
+                            to={url}
+                            startAction={
+                              selectOne && folder.isSelectable ? (
+                                <FolderCardCheckbox
+                                  data-testid={`folder-checkbox-${folder.id}`}
+                                  value={isSelected}
+                                  onChange={() => selectOne(folder)}
+                                />
+                              ) : null
+                            }
+                          >
+                            <FolderCardBody>
+                              <FolderCardBodyAction to={url}>
+                                <Flex as="h2" direction="column" alignItems="start" maxWidth="100%">
+                                  <TypographyMaxWidth fontWeight="semiBold" ellipsis>
+                                    {folder.name}
+                                    <VisuallyHidden>:</VisuallyHidden>
+                                  </TypographyMaxWidth>
+
+                                  <TypographyMaxWidth
+                                    as="span"
+                                    textColor="neutral600"
+                                    variant="pi"
+                                    ellipsis
+                                  >
+                                    {formatMessage(
+                                      {
+                                        id: getTrad('list.folder.subtitle'),
+                                        defaultMessage:
+                                          '{folderCount, plural, =0 {# folder} one {# folder} other {# folders}}, {filesCount, plural, =0 {# asset} one {# asset} other {# assets}}',
+                                      },
+                                      {
+                                        folderCount: folder.children.count,
+                                        filesCount: folder.files.count,
+                                      }
+                                    )}
+                                  </TypographyMaxWidth>
+                                </Flex>
+                              </FolderCardBodyAction>
+                            </FolderCardBody>
+                          </FolderCard>
+                        )}
                       </GridItem>
                     );
                   })}

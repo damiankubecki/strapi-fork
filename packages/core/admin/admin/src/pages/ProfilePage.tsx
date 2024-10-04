@@ -521,31 +521,6 @@ const PreferencesSection = ({ onChange, values, localeNames }: PreferencesSectio
               defaultMessage: 'Experience',
             })}
           </Typography>
-          <Typography>
-            {formatMessage(
-              {
-                id: 'Settings.profile.form.section.experience.interfaceLanguageHelp',
-                defaultMessage:
-                  'Preference changes will apply only to you. More information is available {here}.',
-              },
-              {
-                here: (
-                  <Box
-                    as="a"
-                    color="primary600"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://docs.strapi.io/developer-docs/latest/development/admin-customization.html#locales"
-                  >
-                    {formatMessage({
-                      id: 'Settings.profile.form.section.experience.here',
-                      defaultMessage: 'here',
-                    })}
-                  </Box>
-                ),
-              }
-            )}
-          </Typography>
         </Flex>
         <Grid gap={5}>
           <GridItem s={12} col={6}>

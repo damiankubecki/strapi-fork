@@ -80,15 +80,7 @@ module.exports = {
       path: '/files/:id',
       handler: 'admin-file.destroy',
       config: {
-        policies: [
-          'admin::isAuthenticatedAdmin',
-          {
-            name: 'admin::hasPermissions',
-            config: {
-              actions: ['plugin::upload.assets.update'],
-            },
-          },
-        ],
+        policies: ['admin::isAuthenticatedAdmin'],
       },
     },
     {

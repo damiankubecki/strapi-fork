@@ -35,6 +35,29 @@ export default {
       }
     }
 
+    // EMAIL UPDATE AND VALIDATION START
+    const userAdmin = getService('user').sanitizeUser(ctx.state.user as AdminUser);
+    const optionalUserAdmin = await strapi.db
+      .query('admin::user')
+      .findOne({ where: { email: input.email } });
+
+    // Check if user with this email already exists
+    if (input.email !== userAdmin.email) {
+      if (optionalUserAdmin?.id && optionalUserAdmin?.id !== userAdmin.id) {
+        return ctx.badRequest('Istneje już użytkownik o podanym adresie email');
+      }
+    }
+
+    // Update user email in users-permissions plugin
+    const currentUserPlugin = await strapi.db
+      .query('plugin::users-permissions.user')
+      .findOne({ where: { email: userAdmin.email } });
+    await strapi.db.query('plugin::users-permissions.user').update({
+      where: { id: currentUserPlugin.id },
+      data: { email: input.email, username: input.email },
+    });
+    // EMAIL UPDATE AND VALIDATION END
+
     const updatedUser = await userService.updateById(ctx.state.user.id, userInfo);
 
     ctx.body = {

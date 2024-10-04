@@ -69,7 +69,7 @@ module.exports = {
 
     const { pm, file } = await findEntityAndCheckPermissions(
       userAbility,
-      ACTIONS.update,
+      ACTIONS.read,
       FILE_MODEL_UID,
       id
     );

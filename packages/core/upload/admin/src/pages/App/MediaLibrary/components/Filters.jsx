@@ -33,15 +33,6 @@ export const Filters = () => {
 
   return (
     <>
-      <Button
-        variant="tertiary"
-        ref={buttonRef}
-        startIcon={<Filter />}
-        onClick={toggleFilter}
-        size="S"
-      >
-        {formatMessage({ id: 'app.utils.filters', defaultMessage: 'Filters' })}
-      </Button>
       {isVisible && (
         <FilterPopover
           displayedFilters={displayedFilters}
@@ -51,11 +42,6 @@ export const Filters = () => {
           source={buttonRef}
         />
       )}
-      <FilterList
-        appliedFilters={filters}
-        filtersSchema={displayedFilters}
-        onRemoveFilter={handleRemoveFilter}
-      />
     </>
   );
 };

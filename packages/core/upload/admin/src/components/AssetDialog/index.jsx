@@ -258,15 +258,6 @@ export const AssetDialog = ({
             </Tab>
           </Tabs>
           <Flex gap={2}>
-            <Button
-              variant="secondary"
-              onClick={() => onAddFolder({ folderId: queryObject?.folder })}
-            >
-              {formatMessage({
-                id: getTrad('modal.upload-list.sub-header.add-folder'),
-                defaultMessage: 'Add folder',
-              })}
-            </Button>
             <Button onClick={() => onAddAsset({ folderId: queryObject?.folder })}>
               {formatMessage({
                 id: getTrad('modal.upload-list.sub-header.button'),

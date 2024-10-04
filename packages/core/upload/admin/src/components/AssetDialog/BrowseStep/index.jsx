@@ -24,6 +24,7 @@ import {
   viewOptions,
 } from '../../../constants';
 import { useFolder } from '../../../hooks/useFolder';
+import { useMediaLibraryPermissions } from '../../../hooks/useMediaLibraryPermissions';
 import { getBreadcrumbDataCM, toSingularTypes } from '../../../utils';
 import getAllowedFiles from '../../../utils/getAllowedFiles';
 import getTrad from '../../../utils/getTrad';
@@ -78,6 +79,7 @@ export const BrowseStep = ({
   const { formatMessage } = useIntl();
   const [view, setView] = usePersistentState(localStorageKeys.modalView, viewOptions.GRID);
   const isGridView = view === viewOptions.GRID;
+  const { canUpdate } = useMediaLibraryPermissions();
 
   const { data: currentFolder, isLoading: isCurrentFolderLoading } = useFolder(
     queryObject?.folder,
@@ -275,7 +277,8 @@ export const BrowseStep = ({
                       id={`folder-${folder.id}`}
                       onClick={() => handleClickFolderCard(folder.id, folder.path)}
                       cardActions={
-                        onEditFolder && (
+                        onEditFolder &&
+                        canUpdate && (
                           <IconButton
                             icon={<Pencil />}
                             aria-label={formatMessage({
